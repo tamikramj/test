@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>testing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+            height: 100vh;
+            background-color: #f4f4f4;
+            overflow-y: auto; /* Make the body scrollable */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 45px;
+            color: #150b3c;
+            padding-bottom: 10px;
+            padding-top: 20px;
+            text-align: center;
+        }
+
+        
+        .icon-button {
+            font-size: 30px;
+            background: none;
+            border: none;
+            color: #042c57;
+            cursor: pointer;
+            padding: 10px;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: absolute;
+            top: 80px;
+        }
+
+        .icon-button.left {
+            left: 80px; /* Positioned on the left side */
+        }
+
+        .icon-button:hover {
+            color: #1171d8;
+            transform: scale(1.1);
+        }
+
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align items to the top */
+            gap: 50px; /* Gap between the two containers */
+            margin-top: 80px; /* Ensure the content starts below the fixed navbar */
+            padding: 0px;
+            max-width: 1000px;
+            width: 100%; /* Ensure the container is responsive */
+        }
+
+        .center-container, .stopwatch-container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 350px; /* Set a fixed width for both containers */
+            max-height: 80vh; /* Limit the height to 80% of the viewport height */
+            overflow-y: auto; /* Make the container scrollable if content overflows */
+        }
+
+        input {
+            font-size: 22px;
+            padding: 10px;
+            width: 90%;
+            margin-bottom: 20px;
+            border: 2px solid #1171d8;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            font-size: 18px;
+            padding: 5px 20px;
+            cursor: pointer;
+            background-color: #084a91;
+            color: #ffffff;
+            border: 2px solid #021d44;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #efeff0;
+            color: #084a91;
+            transform: translateY(-2px);
+        }
+
+        #stopwatch {
+            font-size: 48px;
+            margin-bottom: 25px;
+            color: #042c57;
+            transition: color 0.3s ease;
+        }
+
+        #timeRecords p {
+            font-size: 18px;
+            color: #042c57;
+        }
+
+        
+        .clear-button {
+            font-size: 18px;
+            padding: 5px 20px;
+            cursor: pointer;
+            background-color: #d9534f;
+            color: #ffffff;
+            border: 2px solid #d43f3a;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .clear-button:hover {
+            background-color: #c9302c;
+        }
+
+        .serving-number {
+            font-size: 25px;
+            margin-bottom: 20px;
+            color: #c9302c;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <a href="index.html">
+        <button id="homeButton" class="icon-button left">
+            <i class="fas fa-home"></i>
+        </button>
+    </a>
+
+    
+
+    <h1>Bilik Temuduga 1</h1>
+
+
+    <div class="container">
+        <div class="stopwatch-container">
+            <h2>Masa</h2>
+            <div id="stopwatch">00:00:00</div>
+            <button id="startButton">Start</button>
+            <button id="clearButton" class="clear-button">Clear</button>
+            <div id="timeRecords"></div>
+        </div>
+
+        <div class="center-container">
+            <div id="servingNumber" class="serving-number">No one is being served currently</div>
+            <input type="number" id="numberInput" placeholder="Enter number">
+            <button onclick="callNumber()">Call</button>
+        </div>
+    </div>
+
+    <script>
+        // Stopwatch functionality
+        let stopwatchInterval;
+        let elapsedTime = 0;
+        let personCount = 1; // Counter for person
+        const stopwatch = document.getElementById('stopwatch');
+        const startButton = document.getElementById('startButton');
+        const clearButton = document.getElementById('clearButton');
+        const timeRecords = document.getElementById('timeRecords');
+        const servingNumber = document.getElementById('servingNumber');
+
+        function formatTime(timeInMilliseconds) {
+            let date = new Date(timeInMilliseconds);
+            let hours = String(date.getUTCHours()).padStart(2, '0');
+            let minutes = String(date.getUTCMinutes()).padStart(2, '0');
+            let seconds = String(date.getUTCSeconds()).padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        function startStopwatch() {
+            // Clear previous interval
+            if (stopwatchInterval) {
+                clearInterval(stopwatchInterval);
+            }
+
+            // Record the previous time with person count
+            if (elapsedTime > 0) {
+                const record = document.createElement('p');
+                record.textContent = `Person ${personCount} : ${formatTime(elapsedTime)}`;
+                timeRecords.appendChild(record);
+                personCount++;
+            }
+
+            // Reset stopwatch
+            elapsedTime = 0;
+            stopwatch.textContent = formatTime(elapsedTime);
+            stopwatch.style.color = '#042c57'; // Reset color to default
+
+            // Start new stopwatch interval
+            const startTime = Date.now();
+            stopwatchInterval = setInterval(() => {
+                elapsedTime = Date.now() - startTime;
+                stopwatch.textContent = formatTime(elapsedTime);
+
+                // Change color to red if elapsed time exceeds 15 minutes
+                if (elapsedTime > 15 * 60 * 1000) { // 15 minutes in milliseconds
+                    stopwatch.style.color = '#c9302c'; // Red color for warning
+                }
+            }, 1000);
+        }
+
+        function clearRecords() {
+            timeRecords.innerHTML = '';
+            personCount = 1; // Reset person count
+        }
+
+        startButton.addEventListener('click', startStopwatch);
+        clearButton.addEventListener('click', clearRecords);
+
+        // Call number functionality
+        function callNumber() {
+            const number = document.getElementById('numberInput').value;
+            if (number) {
+                localStorage.setItem('room3Number', number);
+                servingNumber.textContent = `Now Serving: ${number}`;
+                alert('Number called: ' + number);
+            } else {
+                alert('Please enter a number');
+            }
+        }
+    </script>
+
+
+
+</body>
+</html>

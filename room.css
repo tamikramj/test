@@ -1,0 +1,128 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 30px;
+    height: 100vh;
+    background-color: #f4f4f4;
+    overflow-y: auto; /* Make the body scrollable */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-size: 45px;
+    color: #150b3c;
+    padding-bottom: 10px;
+    padding-top: 20px;
+    text-align: center;
+}
+
+
+.icon-button {
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: #042c57;
+    cursor: pointer;
+    padding: 10px;
+    transition: color 0.3s ease, transform 0.3s ease;
+    position: absolute;
+    top: 80px;
+}
+
+.icon-button.left {
+    left: 80px; /* Positioned on the left side */
+}
+
+.icon-button:hover {
+    color: #1171d8;
+    transform: scale(1.1);
+}
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    gap: 50px; /* Gap between the two containers */
+    margin-top: 80px; /* Ensure the content starts below the fixed navbar */
+    padding: 0px;
+    max-width: 1000px;
+    width: 100%; /* Ensure the container is responsive */
+}
+
+.center-container, .stopwatch-container {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px; /* Set a fixed width for both containers */
+    max-height: 80vh; /* Limit the height to 80% of the viewport height */
+    overflow-y: auto; /* Make the container scrollable if content overflows */
+}
+
+input {
+    font-size: 22px;
+    padding: 10px;
+    width: 90%;
+    margin-bottom: 20px;
+    border: 2px solid #1171d8;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    font-size: 18px;
+    padding: 5px 20px;
+    cursor: pointer;
+    background-color: #084a91;
+    color: #ffffff;
+    border: 2px solid #021d44;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background-color: #efeff0;
+    color: #084a91;
+    transform: translateY(-2px);
+}
+
+#stopwatch {
+    font-size: 48px;
+    margin-bottom: 25px;
+    color: #042c57;
+    transition: color 0.3s ease;
+}
+
+#timeRecords p {
+    font-size: 18px;
+    color: #042c57;
+}
+
+
+.clear-button {
+    font-size: 18px;
+    padding: 5px 20px;
+    cursor: pointer;
+    background-color: #d9534f;
+    color: #ffffff;
+    border: 2px solid #d43f3a;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.clear-button:hover {
+    background-color: #c9302c;
+}
+
+.serving-number {
+    font-size: 25px;
+    margin-bottom: 20px;
+    color: #c9302c;
+    font-weight: bold;
+}
