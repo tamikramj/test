@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh"content"1; URL=www..bpsmprihatin.site/room1.html">
+    <meta http-equiv="refresh" content="1; URL=www.bpsmprihatin.site/room1.html">
     <title>QMS</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="room.css">
@@ -42,11 +42,25 @@
             const number = document.getElementById('numberInput').value;
             if (number) {
                 localStorage.setItem('room1Number', number);
-                servingNumber.textContent = `Now Serving: ${number}`;
+                displayServingNumber();
             } else {
                 alert('Please enter a number');
             }
         }
+
+        // Function to display the stored number when the page loads
+        function displayServingNumber() {
+            const storedNumber = localStorage.getItem('room1Number');
+            const servingNumber = document.getElementById('servingNumber');
+            if (storedNumber) {
+                servingNumber.textContent = `Now Serving: ${storedNumber}`;
+            } else {
+                servingNumber.textContent = 'No one is being served currently';
+            }
+        }
+
+        // Display the serving number on page load
+        document.addEventListener('DOMContentLoaded', displayServingNumber);
     </script>
 
 </body>
